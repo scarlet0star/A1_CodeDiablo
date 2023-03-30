@@ -17,7 +17,7 @@ from itertools import zip_longest
 # 데이터 character.json에서 player와 확정숫자 or 랜덤으로(1~4) 만큼 monster들을 불러온다.
 # 상태 를 보여준다
 #
-# 입력 값을 받아 (일반공격, 스킬공격, 도망가기) 선택한다.
+# 입력 값을 받아 (일반공격, 스킬공격, 물약먹기, 도망가기) 선택한다.
 #
 # player가 monster를 공격할 때
 # max_att = [(캐릭터스탯+아이템스탯)*4 + 무기공격력or마법공격력] * player의 캐릭에 따라 스킬계수(1 if 일공)
@@ -29,7 +29,7 @@ from itertools import zip_longest
 # skill의 경험치로 레벨업이 되었으면
 #   -skill을 업데이트하고 skill.json도 업데이트한다.
 #
-# monster1.battle_max_hp -= damage
+# 타겟의 battle_max_hp -= damage
 #
 # 피해 정보를 보여준다
 # 데미지가 0일 경우 miss를 보여준다.
@@ -46,6 +46,13 @@ from itertools import zip_longest
 # max_att = [(캐릭터스탯+아이템스탯)*4 + 무기공격력or마법공격력] * player의 캐릭에 따라 스킬계수(1 if 일공)
 # damage = max(round(max_att*0.8, max_att) - 상대 방어구 방어 능력치, 0)
 # 데미지가 0일 경우 miss를 보여준다.
+# monster battle_max_hp = hp + (캐릭터스탯+아이템스탯)*50 + 아이템hp
+#
+# 타겟의 battle_max_hp -= damage
+#
+# 피해 정보를 보여준다
+# 데미지가 0일 경우 miss를 보여준다.
+# 아군과 적 상태를 보여준다.
 #
 # (추후) 여러 마리일 경우 또 계산해야함. monster1, monster2....
 # ********** 반복 *****************
