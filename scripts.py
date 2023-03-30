@@ -35,15 +35,20 @@ SCRIPT_TEXT_DEFEAT_0_1 = '패배엔딩 더미 스트링....'
 SCRIPT_TEXT_NEXT_BATTLE = '다음 전투를 계속 하시겠습니까?'
 SCRIPT_TEXT_YES = '네'
 SCRIPT_TEXT_NO = '아니오'
-SCRIPT_TEXT_PLACE_NAME_0_0 = "[ 여관(저장) ]"
-SCRIPT_TEXT_PLACE_NAME_0_1 = "[ 묘지 ]"
-SCRIPT_TEXT_PLACE_NAME_0_2 = "[ 힐러집 ]"
-SCRIPT_TEXT_PLACE_NAME_0_3 = "[ 잡화점 ]"
-SCRIPT_TEXT_PLACE_NAME_0_4 = "[ 은행근처(전투) ]"
-SCRIPT_TEXT_PLACE_NAME_0_5 = "[ 목축지(전투) ]"
-SCRIPT_TEXT_PLACE_NAME_0_6 = "[ 대장간 ]"
-SCRIPT_TEXT_PLACE_NAME_0_7 = "현재 위치:"
-SCRIPT_TEXT_PLACE_NAME_0_8 = "[ 다른곳으로 이동 ]"
+
+u_place = {
+    0 : "[ 여관(저장) ]",
+    1 : "[ 묘지 ]",
+    2 : "[ 힐러집 ]",
+    3 : "[ 잡화점 ]",
+    4 : "[ 은행근처(전투) ]",
+    5 : "[ 목축지(전투) ]",
+    6 : "[ 대장간 ]",
+    7 : "현재 위치:",
+    8 : "[ 다른곳으로 이동 ]"
+}
+
+
 SCRIPT_TEXT_VIEW_EQUIP = "[ 장비 확인하기 ]"
 SCRIPT_TEXT_VIEW_CHAR = "[ 캐릭터 확인하기 ]"
 # SCRIPT_TEXT_STATUS = f'{hp}/{max_hp} {mp}/{max_mp}'
@@ -52,14 +57,6 @@ SCRIPT_TEXT_VIEW_CHAR = "[ 캐릭터 확인하기 ]"
 u_new_game = [SCRIPT_TEXT_NEW_GAME_1_1,
               SCRIPT_TEXT_NEW_GAME_1_2,
               SCRIPT_TEXT_EXIT_GAME,]
-
-u_place = [SCRIPT_TEXT_PLACE_NAME_0_0,
-            SCRIPT_TEXT_PLACE_NAME_0_1,
-            SCRIPT_TEXT_PLACE_NAME_0_2,
-            SCRIPT_TEXT_PLACE_NAME_0_3,
-            SCRIPT_TEXT_PLACE_NAME_0_4,
-            SCRIPT_TEXT_PLACE_NAME_0_5,
-            SCRIPT_TEXT_PLACE_NAME_0_6]
 
 u_main_select = [SCRIPT_TEXT_VIEW_EQUIP,
                  SCRIPT_TEXT_VIEW_CHAR,
@@ -83,3 +80,5 @@ u_battle = ['일반공격','스킬','도망치기']
 u_inventory_list = ['i_빨간 물약','i_파란 물약',]
 
 u_equip_list = ['e_강력한 숏보우','e_대검','e_단검']
+
+a = ''
