@@ -22,13 +22,17 @@ from itertools import zip_longest
 # player가 monster를 공격할 때
 # max_att = [(캐릭터스탯+아이템스탯)*4 + 무기공격력or마법공격력] * player의 캐릭에 따라 스킬계수(1 if 일공)
 # damage = max(round(max_att*0.8, max_att) - 상대 방어구 방어 능력치, 0)
-# 데미지가 0일 경우 miss를 보여준다.
+#
+# player battle_max_hp = hp + (캐릭터스탯+아이템스탯)*50 + 아이템hp 
 #
 # skill을 썼다면 skill의 경험치를 올려준다.
 # skill의 경험치로 레벨업이 되었으면
 #   -skill을 업데이트하고 skill.json도 업데이트한다.
 #
+# monster1.battle_max_hp -= damage
+#
 # 피해 정보를 보여준다
+# 데미지가 0일 경우 miss를 보여준다.
 # 아군과 적 상태를 보여준다.
 #
 # Player가 죽었으면
