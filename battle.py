@@ -1,5 +1,6 @@
 import random
 from itertools import zip_longest
+from textcolor import *
 
 # ***************** 나중에 구현할 것들 ******************
 # 크리티컬 데미지
@@ -13,8 +14,11 @@ from itertools import zip_longest
 # 최소 1 : 1 전투에서 최대 1 : 4 까지 구현 할 예정
 # 스킬이 1개만 타깃
 
+# main이나 스크린이나 스테이지에서....
 # 데이터 map.json에서 맵의 monster 들을 불러온다. (맵마다 monster 출몰이 다르기 때문에...)
 # 데이터 character.json에서 player와 확정숫자 or 랜덤으로(1~4) 만큼 monster들을 불러온다.
+
+
 # 상태 를 보여준다
 #
 # 입력 값을 받아 (일반공격, 스킬공격, 물약먹기, 도망가기) 선택한다.
@@ -23,7 +27,7 @@ from itertools import zip_longest
 # max_att = [(캐릭터스탯+아이템스탯)*4 + 무기공격력or마법공격력] * player의 캐릭에 따라 스킬계수(1 if 일공)
 # damage = max(round(max_att*0.8, max_att) - 상대 방어구 방어 능력치, 0)
 #
-# player battle_max_hp = hp + (캐릭터스탯+아이템스탯)*50 + 아이템hp 
+# player battle_max_hp = hp + (캐릭터스탯+아이템스탯)*50 + 아이템hp
 #
 # skill을 썼다면 skill의 경험치를 올려준다.
 # skill의 경험치로 레벨업이 되었으면
@@ -70,20 +74,54 @@ from itertools import zip_longest
 # monster 수 만큼 각각 공격하고...
 
 class Battle:
+    # player의 능력과 enemy의 능력을 가져오는 함수?
     def __init__(self, player_character, enemy_character):
-        self.battle_round = 1
+        self.battle_round = 1  # ??????
         self.player_character = player_character
         self.enemy_character = enemy_character
 
-        self.player_hand = []
-        self.player_graveyard = []
-        self.enemy_hand = []
-        self.enemy_graveyard = []
+        self.backup = player_character  # 저장 용도
 
-        self.player_actions = []
-        self.enemy_actions = []
+    # you의 상태를 보여주는 함수
+    def show_status(you):
+        per_hp = you.hp/you.max_hp
+        per_mp = you.mp/you.max_mp
+        per_exp = you.exp/you.max_exp
+        left_hp = round(per_hp * 50)
+        left_mp = round(per_mp * 50)
+        left_exp = round(per_exp * 50)
 
-        self.backup = player_character
+        status = f"캐릭터 클래스: {you._classname}\n"
+        status += f"레벨: {you._lv}\n\n"
+        status += f"체력: {you._hp}/{you._max_hp}\n"
+
+        # HP bar
+        if 0.5 <= per_hp <= 1:
+            status += f"{Colors.BLUE}{you.name}{Colors.RESET}의 상태: {Colors.RED} HP {Colors.RESET}{Colors.GREEN}{you.hp}{Colors.RESET}/{Colors.GREEN}{you.max_hp}{Colors.RESET}, {Colors.BLUE}MP {you.mp}{Colors.RESET}/{Colors.BLUE}{you.max_mp}{Colors.RESET}"
+            status += f"{Colors.GREEN}░{Colors.RESET}" * \
+                left_hp + "░" * (50 - left_hp)
+        elif 0.2 <= per_hp < 0.5:
+            status += f"{Colors.BLUE}{you.name}{Colors.RESET}의 상태: {Colors.RED} HP {Colors.RESET}{Colors.ORANGE}{you.hp}{Colors.RESET}/{Colors.GREEN}{you.max_hp}{Colors.RESET}, {Colors.BLUE}MP {you.mp}{Colors.RESET}/{Colors.BLUE}{you.max_mp}{Colors.RESET}"
+            status += f"{Colors.ORANGE}░{Colors.RESET}" * \
+                left_hp + "░" * (50 - left_hp)
+        else:
+            status += f"{Colors.BLUE}{you.name}{Colors.RESET}의 상태: {Colors.RED} HP {Colors.RESET}{Colors.RED}{you.hp}{Colors.RESET}/{Colors.GREEN}{you.max_hp}{Colors.RESET}, {Colors.BLUE}MP {you.mp}{Colors.RESET}/{Colors.BLUE}{you.max_mp}{Colors.RESET}"
+            status += f"{Colors.RED}░{Colors.RESET}" * \
+                left_hp + "░" * (50 - left_hp)
+
+        # MP bar
+        status += f"{Colors.BLUE}░{Colors.RESET}" * \
+            left_mp + "░" * (50 - left_mp)
+
+        # EXP bar
+        status += f"{Colors.YELLOW}░{Colors.RESET}" * \
+            left_exp + "░" * (50 - left_exp)
+
+        return status
+
+        # 캐릭터 스크린이 있지 않나?
+
+    # 아직 사용 용도를 정하지 않음...
 
     def draw_cards(self, character, hand, graveyard, nums=1):
         # 카드를 뽑기. 덱과 핸드, 무덤의 카드 수를 비교하여 세 리스트 사이에서 카드를 서로 옮깁니다.
@@ -102,8 +140,7 @@ class Battle:
             else:
                 print("핸드가 가득찼기에 카드를 뽑지 않습니다.\n")
 
-    # 적의 카드 배치를 하는 함수입니다. 사용가능한 카드 중에서 랜덤으로 하나를 골라 배치합니다.
-
+    # 아직 사용 용도를 정하지 않음...
     def enemy_place_card(self, enemy, hand, graveyard):
         action_list = []
         for speed in range(enemy.speed):
@@ -115,13 +152,19 @@ class Battle:
 
         return action_list
 
+    # 전투 바로 직전 무조건 실행할 함수
     def start(self):
-        # 전투 최초 시작시 일어날 일, 추후 계획에 따라 더 추가될 여지 있음
-        # 플레이어와 적이 모두 카드를 3장씩 뽑습니다.
-        self.draw_cards(self.player_character, self.player_hand,
-                        self.player_graveyard, 3)
-        self.draw_cards(self.enemy_character, self.enemy_hand,
-                        self.enemy_graveyard, 3)
+        # hp표시
+        # 상대 표시
+        pass
+
+        # # 전투 최초 시작시 일어날 일, 추후 계획에 따라 더 추가될 여지 있음
+        # # 플레이어와 적이 모두 카드를 3장씩 뽑습니다.
+        # self.draw_cards(self.player_character, self.player_hand,        # 아직 사용 용도를 정하지 않음...
+        #                 self.player_graveyard, 3)
+
+        # self.draw_cards(self.enemy_character, self.enemy_hand,          # 아직 사용 용도를 정하지 않음...
+        #                 self.enemy_graveyard, 3)
 
     def round_start(self):
         # 매 라운드 시작시 마다 일어날 로직을 작성합니다.
@@ -145,112 +188,130 @@ class Battle:
 # => action 포인트가 부족한 경우, 무대응을 하도록 해야하는데 무대응에 대한 구현이 아직 부족합니다.
 # confirm 여부에 따라 temp를 비우거나 혹은 현대 패 상태에 temp를 적용합니다.
 
-    def player_setting(self):
-        print("\n적이 아래와 같이 공격합니다. 어떻게 대응하나요?")
+    def player_physical_attack(self):       # Player가 enemy를 공격하는 함수
+        print("일반공격입니다.")
+        # 플레이어 클래스의 Main Stats이 무엇인가?
+        # mainstate.character.str
+        # max_att = [(캐릭터스탯)*4 + 무기공격력or마법공격력] * player의 캐릭에 따라 스킬계수(1 if 일공)
+        # damage = max(round(max_att*0.8, max_att) - 상대 방어구 방어 능력치, 0)
+        # self.enemy_character -= damage
+        # print(누가 누구한테 얼마만큼 데미지를 입혔다.)
+        # 데미지가 0일 경우 miss를 보여준다.
 
-        temp_actions = []
-        temp_graveyard = []
-        temp_hand = self.player_hand[::]
-        temp_action_points = self.player_character.action
+    def player_skill_attack(skill_name):    # name이든 뭐든 어떻든 써서
+        print("스킬 공격입니다.")
+        # skill 의 퍼뎀을 가져와서...
 
-        while True:
+        # max_att = [(캐릭터스탯+아이템스탯)*4 + 무기공격력or마법공격력] * player의 캐릭에 따라 스킬계수(1 if 일공)
+        # damage = max(round(max_att*0.8, max_att) - 상대 방어구 방어 능력치, 0)
+        # self.enemy_character -= damage
+        # print(누가 누구한테 얼마만큼 데미지를 입혔다.)
+        # 데미지가 0일 경우 miss를 보여준다.
 
-            for my_attack, ene_attack in zip_longest(temp_actions, self.enemy_actions, fillvalue="empty"):
-                print(f'>>>>> {my_attack} vs {ene_attack} <<<<<')
-
-            print("\n현재 패에 아래와 같은 카드가 있습니다")
-            print("카드명 / 액션소모 / 카드 값 / 특수 효과")
-            for idx, card in enumerate(self.player_hand, start=1):
-                print(f'{idx} : {card}')
-
-            player_choice = int(input(
-                f"대응할 카드 번호를 입력해주세요 : 현재 배치 가능 갯수 / 액션 포인트 : ({self.player_character.speed} / {self.player_character.action}) "))
-
-            while True:
-                if 1 <= player_choice <= len(temp_hand):
-                    selected_card = temp_hand[player_choice - 1]
-                    if temp_action_points >= selected_card.action:
-                        temp_actions.append(selected_card)
-
-                        temp_hand.remove(selected_card)
-                        temp_graveyard.append(selected_card)
-                        temp_action_points -= selected_card.action
-                        break
-                    else:
-                        print("액션 포인트가 부족합니다.\n")
-                else:
-                    print("잘못된 입력입니다.\n")
-
-            if self.player_character.speed == len(temp_actions) or temp_action_points <= 0:
-                print(
-                    f"\n액션 포인트 소모량 : {self.player_character.action - temp_action_points}")
-                for my_attack, ene_attack in zip_longest(temp_actions, self.enemy_actions, fillvalue="empty"):
-                    print(f'>>>>> {my_attack} vs {ene_attack} <<<<<')
-
-                confirm = input("\n선택한 카드로 진행하시겠습니까? (1: 예, 0: 아니오) ")
-
-                if confirm == "1":
-                    self.player_actions = temp_actions
-                    self.player_graveyard = temp_graveyard
-                    self.player_hand = temp_hand[::]
-                    self.player_character.action = temp_action_points
-                    break
-                elif confirm == "0":
-                    temp_actions = []
-                    temp_graveyard = []
-                    temp_hand = self.player_hand[::]
-                    temp_action_points = self.player_character.action
 
 # 위력을 비교하는 함수입니다. randint를 통해 무작위 변수를 생성해 위력을 결정하고 비교합니다.
 # 위력이 쎈 쪽이 상대방에게 데미지를 입힙니다.
 
-    def after_setting(self):
-        for player_card, enemy_card in zip(self.player_actions, self.enemy_actions):
-            player_damage = self.player_character.power + \
-                random.randint(player_card.minV, player_card.maxV)
-            enemy_damage = self.enemy_character.power + \
-                random.randint(enemy_card.minV, enemy_card.maxV)
+    # 공격하고 받는 그런?
 
-        print(f"\n플레이어 스킬의 위력 : {player_damage} vs 적 스킬의 위력 {enemy_damage}!!")
-        if player_damage > enemy_damage:
-            self.enemy_character.hp -= player_damage
-            print(
-                f"{self.player_character.name}이(가) {self.enemy_character.name}에게 {player_damage}의 데미지를 입혔습니다.")
-        elif enemy_damage > player_damage:
-            self.player_character.hp -= enemy_damage
-            print(
-                f"{self.enemy_character.name}이(가) {self.player_character.name}에게 {enemy_damage}의 데미지를 입혔습니다.")
-        else:
-            print("두 캐릭터의 데미지가 동일하여 아무런 피해도 입히지 못했습니다.")
+    def enemy_physical_attack(self):
+        print('적 피지컬 어택')
+
+    def enemy_enemy_skill_attack(self):
+        print('적 스킬 공격')
 
 # 배틀 상황에 대한 전개입니다.
 # 클래스에서 정의된 모든 함수들이 여기서 사용됩니다.
 # 마지막에 미리 백업해둔 캐릭터 데이터를 통해 캐릭터를 복구하고 main stage(3)으로 갑니다.
 
-    def battle(self, player, enemy):
+    def battle(self, player, enemy):    # 배틀이 시작되는 첫 함수
 
-        self.start()
+        # self.start()
 
+        # 여기서 로직....
         while player.hp > 0 and enemy.hp > 0:
-            player_status = str(player).split('\n')
-            enemy_status = str(enemy).split('\n')
+            # 아군 상태를 보여주는 함수
+            print(self.show_status(player))
+            # 적 상태를 보여주는 함수
+            print(self.show_status(enemy))
 
-            print(f'{self.battle_round}라운드가 시작되었습니다\n')
-            print("플레이어 상태 vs 적 상태")
-            for p_line, e_line in zip(player_status, enemy_status):
-                print(f"{p_line:<25} {e_line}")
+            print(f'{self.battle_round}라운드가 시작되었습니다\n')  # 1 라운드가 1턴 인가?
 
-            self.round_start()
-            self.player_setting()
-            self.after_setting()
-            print("\n라운드 종료! 액션 포인트가 2씩 증가합니다.\n")
-            self.battle_round += 1
+            # 내가 먼저 턴 쓰는.... 나중에 if문으로든 해서 럭이든 무게든 써서 턴....
+            # pick으로 구현하기??????
+            print(
+                f'{Colors.GREEN}일반공격{Colors.RESET}(\"1\"), {Colors.BLUE}스킬공격{Colors.RESET}(\"2\"), ', end="")
+            # 미구현?
+            print(
+                f'{Colors.ORANGE}물약먹기{Colors.RESET}(\"3\"), {Colors.RED}도망가기{Colors.RESET}(\"4\")')
+            print(f'게임종료(\"any key\") 미구현?')
+            user_input = str(
+                input(f"\n>>입력: "))
+
+            if user_input == "1":
+                self.player_physical_attack()
+                # 일반공격
+            elif user_input == "2":
+                pass
+                # 스킬공격
+                # 가지고 있는 skill 뜨게 하기
+                # if 문으로
+                # player_skill_attack(skill 이름?)
+            elif user_input == "3":
+                print("물약먹기, 턴을 소비?")
+            elif user_input == "4":  # 미구현?
+                print("도망가셨습니다. 미구현?")
+                break
+            else:
+                print("게임종료 미구현?")
+                break
+                # exit()
+            # self.round_start()
+
+            # 그래픽이든 뭐든 때리는 소리와 그래픽을????
+
+            # enemy1이 0 이하라면
+            if (self.enemy_character.hp <= 0):
+                print("\n승리!\n")
+                # 보상 받는 것!
+                # 경험치
+                self.player_character.exp += self.enemy_character.exp
+                if (self.player_character.exp >= self.enemy_character.max_exp):
+                    print("레벨업하셨습니다!")
+                    self.player_character.hp = self.player_character.max_hp = self.backup.hp  # 다음 레벨의 hp
+                    self.player_character.mp = self.player_character.max_mp = self.backup.mp
+                    self.player_character.lv += 1
+                    self.player_character.exp = 0
+                    # self.player_character.max_exp += ???
+
+                # 아이템?
+                # character.json에 저장하기??? save에?
+                break
+            else:
+                # 에너미가 스킬이 있다면 먼저 쓰기?? 랜덤으로 뭐할지.... 알아서 계산 해서
+                self.enemy_pysical_attack()
+
+            # 아군 상태를 보여주는 함수
+            print(self.show_status(player))
+            # 적 상태를 보여주는 함수
+            print(self.show_status(enemy))
 
             if self.player_character.hp <= 0:
                 print("\n패배 했습니다...\n")
-            elif self.enemy_character.hp <= 0:
-                print("\n승리!\n")
+                print("\n마을에서 부활합니다.\n")
+                # 10%의 체력으로 부활하게...
+                self.player_character.hp = round(
+                    10 * self.player_character.hp/self.player_character.max_hp)
+                # 10%의 마나로 부활하게...
+                self.player_character.mp = round(
+                    10 * self.player_character.mp/self.player_character.max_mp)
+                break
+                # self.enemy_skill_attack()
 
-        self.player_character = self.backup
+            print(f"\n{self.battle_round}라운드 종료!\n")
+            self.battle_round += 1
+
+        # 캐릭터 백업용
+        # self.player_character = self.backup
 
         return 3
