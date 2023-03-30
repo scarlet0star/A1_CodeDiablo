@@ -164,3 +164,5 @@ u_battel_end = select_display('다음전투를 계속 하시겠습니까?',scrip
 # 인벤토리
 u_equip = select_display('어떤 장비를 착용합니까?',scripts.u_equip_list)
 u_inventory = select_display('어떤 아이템을 착용합니까?',scripts.u_inventory_list)
+
+a = ''
