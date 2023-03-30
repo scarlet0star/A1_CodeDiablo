@@ -6,14 +6,14 @@ from equip import Equip
 
 class Character():
 
-    def __init__(self, **kwargs):        
+    def __init__(self, **kwargs):
         self._classname = kwargs.get("class_name", "NONE")
         self._lv = kwargs.get("lv", 1)
 
         self._max_hp = kwargs.get("max_hp", 30)
         self._hp = kwargs.get("hp", 30)
-        
-        self._max_mana = kwargs.get("max_mana", 30)        
+
+        self._max_mana = kwargs.get("max_mana", 30)
         self._mana = kwargs.get("mana", 30)
 
         self._str = kwargs.get("str", 5)
@@ -26,16 +26,14 @@ class Character():
 
     def __str__(self):
         status = f"캐릭터 클래스: {self._classname}\n"
-        status += f"캐릭터 LV: {self._classname}\n"
-        status += f"최대 HP: {self._max_hp}\n"
-        status += f"현재 HP: {self._hp}\n"
-        status += f"최대 마나: {self._max_mana}\n"
-        status += f"현재 마나: {self._mana}\n"
-        status += f"힘: {self._str}\n"
+        status += f"레벨: {self._lv}\n\n"
+        status += f"체력: {self._max_hp}/{self._hp}/\n"
+        status += f"마나: {self._max_mana}/{self._mana}\n"
+        status += f"근력: {self._str}\n"
         status += f"민첩: {self._dex}\n"
         status += f"지능: {self._int}\n"
         status += f"의지: {self._will}\n"
-        status += f"운: {self._luck}\n"
+        status += f"행운: {self._luck}\n"
         status += f"경험치: {self._exp}\n"
 
         return status
