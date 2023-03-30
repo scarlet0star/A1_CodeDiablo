@@ -6,26 +6,34 @@ from os import system
 import scripts
 
 # # # 게임시작
-
-
+# items = k,v keys= k values = v
 
 # # 스테이지 넘버를 받아 특정 스테이지의 텍스트를 출력합니다.
 # # return으로 해당 stage의 선택지 텍스트를 리턴합니다.
+# stage_num -> stage[stage_num] stage_text => "환영합니다~~" "1 ㅁㅁㅁ 2 ㅁㅁㅁ"
 
-# def screen_output(stage_num):   # 스테이지 넘버를 받아옴 
-#     stage_text = stage[stage_num]   
-#     return stage_text["select"]
+def screen_output(stage_num):   # 스테이지 넘버를 받아옴 
+    stage_text = stage[stage_num]   
+    return stage_text["select"]
 
-#     # items = k,v keys= k values = v
-    
 
 # # 시작 스테이지의 선택지 로직입니다. 선택지 로직은 보통 스테이지 넘버를 리턴합니다.
 
-# def start_stage(mainState):
-#     u_menu_select = select_display(scripts.SCRIPT_TEXT_NEW_GAME_TITLE_0_0, scripts.u_new_game)
-#     if u_menu_select == 2:
-#         exit(0)
-#     return u_menu_select
+def start_stage():
+    u_menu_select = select_display(scripts.SCRIPT_TEXT_NEW_GAME_TITLE_0_0, scripts.u_new_game)
+    if u_menu_select == 2:
+        exit(0)
+    return u_menu_select
+
+# def start_stage(choice, mainState):
+#     if choice == 1:
+#         return "캐릭터이름변경"
+#     elif choice == 2:
+#         return 2
+#     elif choice == 3:
+#         exit()
+#     else:
+#         print("선택지에 없는 입력을 하셨습니다. 다시 선택해주세요.")
 
 # def gen_stage(choice, mainState):
 #     mainState.user.name = choice
@@ -105,8 +113,202 @@ import scripts
 # }
 
 
+# def e_select_display(insert_scription,insert_selector):
+    
+#     script = insert_scription
+#     select = insert_selector
 
-def select_display(insert_scription,insert_selector):
+#     out_selector, index = pick(select, script)
+    
+#     # print(index, out_selector)
+#     return index
+
+# def main_menu():
+#     # 1. 새겜 2.불러오기 3.겜 종료
+#     while True:
+#         u_main = e_select_display(scripts.SCRIPT_TEXT_NEW_GAME_TITLE_0_0, scripts.u_new_game)
+#         if u_main == 0:
+#             return new_game()
+#         elif u_main == 1:
+#             continue
+#         else:
+#             exit()
+
+# def e_battle():
+#     pass
+
+# while True:
+#     break
+
+
+stage_diction = {
+    "광장":{
+        "desciption":"여기는 광장, 무엇을 하지?",
+                    #특정 위치로 이동하는 선택지, #특정 행동을 하는 선택지
+        "select":["~~로 이동","자기","인벤토리 열어보기","클래스 변경"]
+    },
+    "광장2":{
+        "desciption":"여기는 광장, 무엇을 하지?",
+        "select":["자기","인벤토리 열어보기","클래스 변경"]
+    },
+    "광장3":{
+        "desciption":"여기는 광장, 무엇을 하지?",
+        "select":["자기","인벤토리 열어보기","클래스 변경"]
+    },
+                 }
+
+
+
+
+selection = ["이동","행동"]
+
+places = ["[ 여관(저장) ]",
+         "[ 묘지 ]",
+         "[ 힐러집 ]",
+         "[ 잡화점 ]",
+         "[ 은행근처(전투) ]",
+         "[ 목축지(전투) ]",
+         "[ 대장간 ]",
+         "현재 위치",
+         "[ 다른곳으로 이동 ]"]
+
+actions = ["전투",
+           "전체 스킬 확인",
+           "인벤토리 확인",
+           "캐릭터 정보 확인",
+           "장착한 장비 확인",
+           "캐릭터 변경",
+           "[뒤로가기]"
+           ]
+
+def battle_stage():
+    #전투 시작?
+    pass
+def view_skill():
+    # 스킬 확인
+    pass
+def view_inventory():
+    # 인벤토리 확인
+    pass
+def view_status():
+    # 스테이터스 확인
+    pass
+def view_equip():
+    # 인벤토리 확인
+    pass
+def change_char():
+    # 캐릭터 선택
+    pass
+def back():
+    pass
+
+print('')
+
+
+action_function = {0:battle_stage,
+                   1:view_skill,
+                   2:view_inventory,
+                   3:view_status,
+                   4:view_equip,
+                   5:change_char,
+                   6:back,}
+
+moving_function = {0:hotel,
+                   1:cemetry,
+                   2:healerhouse,
+                   3:store,
+                   4:bank,
+                   5:land,
+                   6:fergus,
+                   7:diff,} 
+    
+places = ["[ 여관(저장) ]",
+         "[ 묘지(전투) ]",
+         "[ 힐러집 ]",
+         "[ 잡화점 ]",
+         "[ 은행근처(전투) ]",
+         "[ 목축지(전투) ]",
+         "[ 대장간 ]",
+         "[ 다른곳으로 이동 ]"]
+
+def stage(stage_num):
+    description = stage_diction[stage_num]["description"]
+    
+    action_value,action_index = pick(selection,description)
+    # 이동 선택지 고를시
+    if action_value == "[ 여관(저장) ]":
+        move_value,move_index = pick(places,"")
+        return move_index
+    # 행동 선택지 고를시
+    else:
+        action_value, action_index = pick(actions,"")
+        action_function[action_index](self.mainState)
+        return stage_num
+
+
+
+# def select_display("현재 스테이지 키"):
+#     현재 스테이지 설명 = stage_diction["현재 스테이지 키"]["description"]
+#     (현재 스테이지 등장 선택지) = stage_diction["현재 스테이지 키"]["select"]
+#     print(현재 스테이지 설명)
+    
+#     text = screen_output(mainState.stage)
+    
+    
+#     select = get_user_input(text)
+    
+#     select를 받는 과정 = 선택지를 출력해서 어떤 행동을 할지 물어봄
+    
+#     pick은 여기서 씀
+    
+#     <next_stage = stage.get(mainState.stage).get("logic")(select, mainState)>
+    
+#     [이동] [행동]
+    
+#     [] [] [] []
+    
+#     특정위치 도착:
+#     print("아 여기 여관이지...")
+    
+#     [행동]
+#     [장비확인], [스킬보기], [전투]
+#     ->
+#     리턴 제자리 위치 
+    
+#     스타트 -> 특정 위치로 떨어질거 -> 1. 이동 : 0(여관) : 여관에 대한 스크립트가 출력됨 -> 1.이동 2.행동 
+#     로드
+#     종료
+    
+#     맵에 있다면
+#     1. 이동 -> 이동할 곳 선택지 출력
+    
+#      {
+#         0 : "[ 여관(저장) ]",
+#         1 : "[ 묘지 ]",
+#         2 : "[ 힐러집 ]",
+#         3 : "[ 잡화점 ]",
+#         4 : "[ 은행근처(전투) ]",
+#         5 : "[ 목축지(전투) ]",
+#         6 : "[ 대장간 ]",
+#         7 : "현재 위치:",
+#         8 : "[ 다른곳으로 이동 ]"
+#         }
+#     2. 행동 -> 행동할 것 선택지 출력
+#         1. 전투
+#         2. 장비
+#         3. 스텟확인
+#         4. 게임끄기
+        
+#     if 특정 행동을 실행하는 선택지:
+#         main_state.change_character()
+#         "특정 로직을 실행함"
+#         return 특정 위치로 이동하는 키값(보통= 현재위치)
+#     else(다른 장소로 이동만 하는 선택지):
+
+#         return 픽을 통해 받은 선택지 키값
+    
+    
+    
     
     script = insert_scription
     select = insert_selector
@@ -114,7 +316,7 @@ def select_display(insert_scription,insert_selector):
     out_selector, index = pick(select, script)
     
     # print(index, out_selector)
-    return index
+    return "다음 스테이지 키"
 
 
 def scription_controller(scription):
@@ -123,15 +325,7 @@ def scription_controller(scription):
         print('\n'+scription[i]+('\n'*5))
         input('엔터를 눌러주세요.')
 
-def main_menu():
-    # 1. 새겜 2.불러오기 3.겜 종료
-    u_main = select_display(scripts.SCRIPT_TEXT_NEW_GAME_TITLE_0_0, scripts.u_new_game)
-    if u_main == 0:
-        new_game()
-    elif u_main == 1:
-        pass
-    else:
-        exit()
+
     
 def new_game():
     # 이름입력
@@ -153,10 +347,10 @@ def new_battle(self):
 def my_turn(self):
     u_battle_select = select_display('당신의 턴',scripts.u_battle)
     
-def 
-
-# 전투결과
-print('전투가 끝났습니다. 당신은 ~~~ 얻었습니다.')
+def end_battle(self):
+    # 전투결과
+    print('전투가 끝났습니다. 당신은 ~~~ 얻었습니다.')
+    
 # 전투속행 질의
 u_battel_end = select_display('다음전투를 계속 하시겠습니까?',scripts.u_continue_select)
 # 종료  
