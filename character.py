@@ -7,7 +7,7 @@ from equip import Equip
 
 class Character():
 
-    def __init__(self, skill_instance, **kwargs):
+    def __init__(self, **kwargs):
         self._classname = kwargs.get("classname", "NONE")
 
         self._max_hp = kwargs.get("max_hp", 30)
@@ -23,13 +23,6 @@ class Character():
 
         self._exp = kwargs.get("exp", 0)
 
-        self._equip = Equip()
-
-        skill = kwargs.get("skill", [])
-
-        # 캐릭터 json 내부에 미리 설정된 skill 목록에 따라 스킬을 획득합니다.
-        for skill_name in skill:
-            self._equip.add_card(skill_instance[skill_name])
 
     def __str__(self):
         status = f"캐릭터 클래스: {self._classname}\n"

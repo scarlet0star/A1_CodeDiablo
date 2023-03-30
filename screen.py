@@ -1,7 +1,3 @@
-from battle import Battle
-from character import Character
-from main import skills, heroes
-
 # 만약 여유가 있다면 텍스트는 따로 저장할 예정입니다.
 
 start = '''김성광의 게임에 오신것을 환영합니다.\n캐릭터를 생성하거나 기존에 생성한 캐릭터를 통해 몬스터와 전투를 할 수 있습니다.'''
