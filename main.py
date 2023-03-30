@@ -28,14 +28,36 @@ class Player:
         for skill_name in skill:
             self._equip.add_skill(skill[skill_name])
 
-    def use_item(self, index):
-        self._equip.potion_list[index].use(self.character)
+    @property
+    def propname(self):
+        if self._equip._used_item_list["칭호"] == None:
+            return self._propname
+        else:
+            return self._equip._used_item_list["칭호"] + " " + self._propname
 
-    #캐릭터 리스트를 출력해요, 그 캐릭트 리스트에서 유저가 고른 선택지
+    def use_item(self, index):
+        self._equip._potion_list[index].use(self.character)
+
+    # 캐릭터 리스트를 출력해요, 그 캐릭트 리스트에서 유저가 고른 선택지
     def change_class(self, index):
-        target_class = self._equip.total_character_list(index)
+        target_class = self._equip._total_character_list(index)
         self._equip.add_character(self.character)
         self.character = target_class
+    
+    def equip_item(self, item_index):
+        self._equip.equip_item(item_index)
+        
+        target_weapon = self._equip._used_item_list[-1]
+        self.character.update_status(**target_weapon.stats)
+
+    def unequip_item(self, item_index):
+        target_weapon = self._equip._used_item_list[item_index]
+       
+        self.character.updated_by_arms(item_index)
+        
+        self._equip._arms_list.append(target_weapon)
+        self._equip._used_item_list.remove(target_weapon)
+        
 
 # main입니다. While 문을 통해 stage.py에서 선택지 정보를 받아와 계속 출력합니다.
 # 현재 player 캐릭터를 하나만 지정했기 때문에 **character['1']로 하드코딩 되어있습니다.
@@ -43,15 +65,12 @@ class Player:
 
 
 def main():
-    user = Character(**characters['1'])
-    mainState = Player(**{"propname": "user", "user": user})
+    username,classname = new_game()
+    user = Character(**characters[classname])
+    mainState = Player(**{"propname": username, "user": user})
+    
     while True:
-        text = screen_output(mainState.stage)
-        select = get_user_input(text)
-
-        # screen에 있는 stage 딕셔너리 -> 이 안에 현재 스테이지(mainState.stage)로 접근 또 그 안에서 logic에 함수를 불러옴
-        next_stage = stage.get(mainState.stage).get("logic")(select, mainState)
-
+        next_stage = staging(mainState)
         mainState.stage = next_stage
 
 

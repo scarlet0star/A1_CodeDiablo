@@ -22,7 +22,7 @@ class Character():
         self._luck = kwargs.get("luck", 5)
 
         self._exp = kwargs.get("exp", 0)
-        self._level = kwargs.get("lv",1)
+        self._lv = kwargs.get("lv",1)
 
 
     def __str__(self):
