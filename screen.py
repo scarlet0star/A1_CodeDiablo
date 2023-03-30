@@ -90,7 +90,6 @@ def main_stage(choice, mainState):
     else:
         print("잘못된 값을 입력하셨습니다.\n")
 
-
 def character_info(choice, mainState):
     print(mainState.user)
     return 3
@@ -138,3 +137,4 @@ stage = {
         "logic": battle_stage
         }
 }
+

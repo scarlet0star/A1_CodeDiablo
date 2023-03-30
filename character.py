@@ -22,19 +22,36 @@ class Character():
         self._luck = kwargs.get("luck", 5)
 
         self._exp = kwargs.get("exp", 0)
+        self._level = kwargs.get("lv",1)
 
 
     def __str__(self):
         status = f"캐릭터 클래스: {self._classname}\n"
-        status += f"최대 HP: {self._max_hp}\n"
-        status += f"현재 HP: {self._hp}\n"
-        status += f"최대 마나: {self._max_mana}\n"
-        status += f"현재 마나: {self._mana}\n"
-        status += f"힘: {self._str}\n"
+        status += f"레벨: {self._lv}\n\n"
+        status += f"체력: {self._max_hp}/{self._hp}/\n"
+        status += f"마나: {self._max_mana}/{self._mana}\n"
+        status += f"근력: {self._str}\n"
         status += f"민첩: {self._dex}\n"
         status += f"지능: {self._int}\n"
         status += f"의지: {self._will}\n"
-        status += f"운: {self._luck}\n"
+        status += f"행운: {self._luck}\n"
         status += f"경험치: {self._exp}\n"
 
         return status
+    
+    #장비를 장착하거나 해제 -> 결국 screen에서 결정하는 거니까(stage)
+    def update_status(self,**data):
+        for key, value in data.items():
+            if hasattr(self, key):
+                current = getattr(self, key)
+                setattr(self, key, current + value)
+                
+    def updated_by_arms(self,weapon_idx):
+        target_weapon = Equip.used_item_list[weapon_idx]
+        #weapon 내에 증가하는 스탯들이 stat이라는 딕셔너리에 저장되어있다는 가정하에
+        
+        for key, value in target_weapon.items():
+            if hasattr(self, key):
+                current = getattr(self, key)
+                setattr(self, key, current - value)
+            
