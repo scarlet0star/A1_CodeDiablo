@@ -165,6 +165,11 @@ class Battle:
             # skill 의 계수를 가져오기
             # damage_per
 
+        # if hits 수가 for문 동안 반복해서 때린다.
+
+        weapon=self.player_character.Equip.used_item_list["무기"]
+
+        # 크리티컬은 독립 수행
         # player_character._luck 값에 따라 크리티컬 발생 확률이 달라짐
         critical_chance=self.player_character._luck / 500
 

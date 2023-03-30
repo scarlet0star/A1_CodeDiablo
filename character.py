@@ -23,17 +23,18 @@ class Character():
         self._luck = kwargs.get("luck", 5)
 
         self._exp = kwargs.get("exp", 0)
+        self._max_exp = kwargs.get("max_exp", 0)
 
     def __str__(self):
         status = f"캐릭터 클래스: {self._classname}\n"
         status += f"레벨: {self._lv}\n\n"
-        status += f"체력: {self._max_hp}/{self._hp}/\n"
-        status += f"마나: {self._max_mana}/{self._mana}\n"
+        status += f"체력: {self._hp}{self._max_hp}/\n"
+        status += f"마나: {self._mana}/{self._max_mana}\n"
         status += f"근력: {self._str}\n"
         status += f"민첩: {self._dex}\n"
         status += f"지능: {self._int}\n"
         status += f"의지: {self._will}\n"
         status += f"행운: {self._luck}\n"
-        status += f"경험치: {self._exp}\n"
+        status += f"경험치: {self._exp}/{self._max_exp}\n"
 
         return status
