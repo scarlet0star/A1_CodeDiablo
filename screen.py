@@ -1,70 +1,31 @@
 # from battle import Battle
 # from character import Character
 # from main import create_card_instance, enemies
+from pick import pick
+from os import system
+import scripts
 
-# # 만약 여유가 있다면 텍스트는 따로 저장할 예정입니다.
+# # # 게임시작
 
-# start = '''김성광의 게임에 오신것을 환영합니다.\n캐릭터를 생성하거나 기존에 생성한 캐릭터를 통해 몬스터와 전투를 할 수 있습니다.'''
-
-# start_select = ["[ 캐릭터 생성하기 ]",
-#                 "[ 캐릭터 불러오기 ]",
-#                 "[ 게임 종료하기 ]"]
-
-# character_gen = "생성하고 싶은 캐릭터의 이름을 정해주세요."
-
-# load = "기존에 생성한 캐릭터를 불러오고 있습니다."
-
-# main = "메인 화면입니다. 하고 싶은 활동을 선택해주세요"
-
-# main_select = ["[ 장비 확인하기 ]",
-#                "[ 캐릭터 확인하기 ]",
-#                "[ 콜로세움으로 진입 ]",
-#                "[ 게임 종료하기 ]",]
-
-# battle = "콜로세움에 오신 것을 환영합니다. 상대할 적을 골라주세요."
-
-# battle_select = ["[ 고통스러워 하는 개발자 ]",
-#                  "[ 비슷한 상대 ]"]
 
 
 # # 스테이지 넘버를 받아 특정 스테이지의 텍스트를 출력합니다.
 # # return으로 해당 stage의 선택지 텍스트를 리턴합니다.
 
-# def screen_output(stage_num):
-#     stage_text = stage[stage_num]
-#     print(stage_text["text"] if stage_text["text"] != None else "")
-
+# def screen_output(stage_num):   # 스테이지 넘버를 받아옴 
+#     stage_text = stage[stage_num]   
 #     return stage_text["select"]
 
-# # 리턴된 선택지 리스트를 받아와서 하나씩 출력합니다.유저의 input을 리턴받습니다. 
-# # 이때 리스트 혹은 문자열 판별을 isinstance를 이용합니다. 이후 출력을 따로 받습니다.
-
-# def get_user_input(select):
-#     if isinstance(select, list):
-#         for i, choice in enumerate(select):
-#             print(f"{i + 1} | {choice}")
-#         user_input = int(input("\n원하는 선택지는? >> "))
-
-#     elif isinstance(select, str) and select == "input":
-#         user_input = input("\n값을 기입해주세요 >> ")
-
-#     else:
-#         user_input = ""
-
-#     return user_input
+#     # items = k,v keys= k values = v
+    
 
 # # 시작 스테이지의 선택지 로직입니다. 선택지 로직은 보통 스테이지 넘버를 리턴합니다.
 
-# def start_stage(choice, mainState):
-#     if choice == 1:
-#         return 1
-#     elif choice == 2:
-#         return 2
-#     elif choice == 3:
-#         exit()
-#     else:
-#         print("선택지에 없는 입력을 하셨습니다. 다시 선택해주세요.")
-
+# def start_stage(mainState):
+#     u_menu_select = select_display(scripts.SCRIPT_TEXT_NEW_GAME_TITLE_0_0, scripts.u_new_game)
+#     if u_menu_select == 2:
+#         exit(0)
+#     return u_menu_select
 
 # def gen_stage(choice, mainState):
 #     mainState.user.name = choice
@@ -80,7 +41,8 @@
 #     return 3
 
 
-# def main_stage(choice, mainState):
+# def main_stage(mainState):
+#     choice = select_display()
 #     if choice == 1:
 #         return 5
 #     elif choice == 2:
@@ -117,15 +79,13 @@
 # # python에서는 함수 역시 1급 객체이기에 가능한 일입니다. 
 
 # stage = {
-#     0: {"text": start,
-#         "select": start_select,
-#         "logic": start_stage},
-#     1: {"text": character_gen,
+#     0: {"select": start_stage},
+#     1: {"text": scripts.SCRIPT_TEXT_CREATE_USER,
 #         "select": "input",
 #         "logic": gen_stage},
-#     2: {"text": load,
-#         "select": None,
-#         "logic": load_stage},
+#     # 2: {"text": load,
+#     #     "select": None,
+#     #     "logic": load_stage},
 #     3: {"text": main,
 #         "select": main_select,
 #         "logic": main_stage
@@ -147,66 +107,60 @@
 
 
 def select_display(insert_scription,insert_selector):
-    from pick import pick
+    
     script = insert_scription
     select = insert_selector
 
     out_selector, index = pick(select, script)
     
-    print(index, out_selector)
-    return index, out_selector
+    # print(index, out_selector)
+    return index
 
-
-# mi = display('김첨지는 맛좋은 김치',['설렁탕','막걸리','팥빙수'])
-
-# print(mi[0])
-
-
-
-import scripts
-from os import system
-# 게임시작
-new_game = [
-            scripts.SCRIPT_TEXT_NEW_GAME_1_1,
-            scripts.SCRIPT_TEXT_NEW_GAME_1_2,
-            scripts.SCRIPT_TEXT_NEW_GAME_1_3,
-            ]
-u_class = [scripts.SCRIPT_TEXT_SELECT_USER_CLASS_WARRIOR,
-           scripts.SCRIPT_TEXT_SELECT_USER_CLASS_WIZARD,
-           scripts.SCRIPT_TEXT_SELECT_USER_CLASS_ARCHER,
-           scripts.SCRIPT_TEXT_SELECT_USER_CLASS_ALCHEMIST]
-u_story = [scripts.SCRIPT_TEXT_PROLOGUE_0_0,
-           scripts.SCRIPT_TEXT_PROLOGUE_0_1,
-           scripts.SCRIPT_TEXT_PROLOGUE_0_2]
-
-u_battle = ['일반공격','스킬','도망치기']
-
-u_continue_select = [scripts.SCRIPT_TEXT_YES,
-                     scripts.SCRIPT_TEXT_NO]
 
 def scription_controller(scription):
     for i in range(0,len(scription)):
         system('cls')
         print('\n'+scription[i]+('\n'*5))
         input('엔터를 눌러주세요.')
-        
-    
 
-u_menu_select = select_display(scripts.SCRIPT_TEXT_NEW_GAME_TITLE_0_0, new_game)
-# 이름입력
-system('cls') 
-name = input('당신의 이름은 무엇인가요?')
-# 직업선택
-u_class_select = select_display('직업을 선택하세요',u_class)
-# 스토리텔링
-scription_controller(u_story)
-# 전투준비
-print('전투가 시작됨'+('\n'*5))
-# 전투
-print('전투중'+('\n'*5))
-battle_select = select_display('당신의 턴',u_battle)
+def main_menu():
+    # 1. 새겜 2.불러오기 3.겜 종료
+    u_main = select_display(scripts.SCRIPT_TEXT_NEW_GAME_TITLE_0_0, scripts.u_new_game)
+    if u_main == 0:
+        new_game()
+    elif u_main == 1:
+        pass
+    else:
+        exit()
+    
+def new_game():
+    # 이름입력
+    system('cls') 
+    u_name = input('당신의 이름은 무엇인가요?')
+    # 직업선택
+    u_class_select = select_display('직업을 선택하세요',scripts.u_class)
+    # 스토리텔링
+    scription_controller(scripts.u_story)
+    return u_name , u_class_select
+
+# class Battle:
+    # 전투준비
+def new_battle(self):
+    print('전투가 시작됨'+('\n'*5))
+    # 전투
+    print('전투중'+('\n'*5))
+    
+def my_turn(self):
+    u_battle_select = select_display('당신의 턴',scripts.u_battle)
+    
+def 
+
 # 전투결과
 print('전투가 끝났습니다. 당신은 ~~~ 얻었습니다.')
 # 전투속행 질의
-battel_end = select_display('다음전투를 계속 하시겠습니까?',u_continue_select)
-# 종료
+u_battel_end = select_display('다음전투를 계속 하시겠습니까?',scripts.u_continue_select)
+# 종료  
+
+# 인벤토리
+u_equip = select_display('어떤 장비를 착용합니까?',scripts.u_equip_list)
+u_inventory = select_display('어떤 아이템을 착용합니까?',scripts.u_inventory_list)

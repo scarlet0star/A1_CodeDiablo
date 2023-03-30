@@ -8,8 +8,6 @@ cards = load_files("card_list.json")
 enemies_cards = load_files("enemy_card_list.json")
 heroes = load_files("hero_character.json")
 enemies = load_files("enemy_character.json")
-
-
 # 카드 객체를 생성시 사용하는 함수입니다. bool 값으로 player, enemy를 결정합니다.
 # Character class 생성시 character.json에 존재하는 기본 스킬 id list를 이용하여 초기 카드 소지 정보를 초기화합니다.
 
@@ -55,13 +53,13 @@ def main():
     user = Character(card_instances=create_card_instance(True), **heroes['1'])
     mainState = Player(user)
     while True:
-        text = screen_output(mainState.stage)
-        select = get_user_input(text)
+        text = screen_output(mainState.stage) # 숫자가 들어가면 
 
-        next_stage = stage.get(mainState.stage).get("logic")(
-            select, mainState)
+        next_stage = stage.get(mainState.stage).get("logic")(text, mainState)
 
         mainState.stage = next_stage
+        
+    
 
 
 if __name__ == '__main__':

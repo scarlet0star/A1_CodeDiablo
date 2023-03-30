@@ -1,0 +1,90 @@
+{
+    "0": {
+        "place_name": "여관(저장)"
+    },
+    "1": {
+        "place_name": "묘지"
+    },
+    "2": {
+        "place_name": "힐러집"
+    },
+    "3": {
+        "place_name": "잡화점"
+    },
+    "4": {
+        "place_name": "은행근처"
+    },
+    "5": {
+        "place_name": "목축지"
+    },
+    "6": {
+        "place_name": "대장간"
+    }
+}
+
+start = '''김성광의 게임에 오신것을 환영합니다.\n캐릭터를 생성하거나 기존에 생성한 캐릭터를 통해 몬스터와 전투를 할 수 있습니다.'''
+
+start_select = [
+    "[ 캐릭터 생성하기 ]",
+    "[ 캐릭터 불러오기 ]",
+    "[ 게임 종료하기 ]"
+]
+
+character_gen = "생성하고 싶은 캐릭터의 이름을 정해주세요."
+
+load = "기존에 생성한 캐릭터를 불러오고 있습니다."
+
+main = "메인 화면입니다. 하고 싶은 활동을 선택해주세요"
+
+main_select = [
+    "[ 장비 확인하기 ]",
+    "[ 캐릭터 확인하기 ]",
+    "[ 콜로세움으로 진입 ]",
+    "[ 게임 종료하기 ]",
+]
+
+battle = "콜로세움에 오신 것을 환영합니다. 상대할 적을 골라주세요."
+
+battle_select = [
+    "[ 고통스러워 하는 개발자 ]",
+    "[ 비슷한 상대 ]"
+]
+
+
+stage = {
+    0: {
+        "text": start,
+        "select": start_select,
+        "logic": start_stage
+    },
+    1: {
+        "text": character_gen,
+        "select": "input",
+        "logic": gen_stage
+    },
+    2: {
+        "text": load,
+        "select": None,
+        "logic": load_stage
+    },
+    3: {
+        "text": main,
+        "select": main_select,
+        "logic": main_stage
+    },
+    4: {
+        "text": None,
+        "select": "",
+        "logic": character_info
+    },
+    5: {
+        "text": None,
+        "select": "",
+        "logic": equip_info
+    },
+    6: {
+        "text": battle,
+        "select": battle_select,
+        "logic": battle_stage
+    }
+}
