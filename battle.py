@@ -92,6 +92,7 @@ class Battle:
         left_exp = round(per_exp * 50)
 
         status = f"캐릭터 클래스: {you._classname}\n"
+        # 무기, 방어구
         status += f"레벨: {you._lv}\n\n"
         status += f"체력: {you._hp}/{you._max_hp}\n"
 
@@ -184,6 +185,7 @@ class Battle:
             critical_YN = True
             damage_per += 1.6
 
+<<<<<<< Updated upstream
         if (self.player_character._classname == "전사"):
             main_stat_sum = self.player_character._str * 4
 
@@ -226,12 +228,24 @@ class Battle:
         if damage != 0:
             if critical_YN == True:
                 print(f"{Colors.GREEN}{self.name}{Colors.RESET}의 공격! {Colors.RED}{self.enemy_character._name}{Colors.RESET}에게 {Colors.YELLOW}{damage}{Colors.RESET}을(를) 입혔습니다.")
+=======
+            # enemy 클릭
+            # 크리티컬이면 데미지를 노란색으로
+            # 데미지가 0일 경우 MISS를 보여준다.
+            att_print = f"{Colors.GREEN}{self.name}{Colors.RESET}의 공격! {Colors.RED}{self.enemy_character._name}{Colors.RESET}에게 "
+            if damage != 0:
+                if critical_YN == True:
+                    att_print += f"{Colors.YELLOW}{damage}{Colors.RESET}을(를) 입혔습니다."
+                else:
+                    att_print += f"{damage}을(를) 입혔습니다."
+>>>>>>> Stashed changes
             else:
                 print(
                     f"{Colors.GREEN}{self.name}{Colors.RESET}의 공격! {Colors.RED}{self.enemy_character._name}{Colors.RESET}에게 {damage}을(를) 입혔습니다.")
         else:
             print(f"{Colors.GREEN}{self.name}{Colors.RESET}의 공격! {Colors.RED}{self.enemy_character._name}{Colors.RESET}에게 MISS")
 
+<<<<<<< Updated upstream
     def enemy__attack(self, skill_name):    # name이든 뭐든 어떻든 써서
         # if 스킬0번째 있는 거냐? >> 일반 공격인지 묻는 거임.
         # print("일반공격입니다.")
@@ -240,6 +254,18 @@ class Battle:
         # print(skill_name)
         # skill 의 계수를 가져오기
         # damage_per
+=======
+            att_print = f"{Colors.RED}{self.name}{Colors.RESET}의 공격! {Colors.GREEN}{self.enemy_character._name}{Colors.RESET}에게 "
+            if damage != 0:
+                if critical_YN == True:
+                    att_print += f"{Colors.YELLOW}{damage}{Colors.RESET}을(를) 입혔습니다."
+                else:
+                    att_print += f"{damage}을(를) 입혔습니다."
+            else:
+                att_print = f"MISS"
+
+            print(att_print)
+>>>>>>> Stashed changes
 
         # player_character._luck 값에 따라 크리티컬 발생 확률이 달라짐
         critical_chance = self.player_character._luck / 500
