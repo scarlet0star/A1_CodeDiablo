@@ -2,34 +2,32 @@
 #
 
 class Item:
-    
     def __init__(self, **kwargs):
         
-        self._name = kwargs.get("name")
+        self._name = kwargs.get("name") # get을 사용해 키워드"name" 불러오고 키워드 없으면 none 불러옴
         self._weight = kwargs.get("weight")
 
         
     def __str__(self): 
-        
         status = f"장비명: {self._name}\n"
         status = f"무게: {self._weight}\n"
 
         return status
     
-class Weapon_Armor(Item):
+class Arms(Item):
     def __init__(self, **kwargs):
         
-        self._dmg = kwargs.get("dmg", 30)
-        self._magicdmg = kwargs.get("magicdmg", 30)
-        self._def = kwargs.get("def", 30)
-        self._magicdef = kwargs.get("mana", 30)
+        self._dmg = kwargs.get("dmg")
+        self._mdmg = kwargs.get("mdmg")
+        self._def = kwargs.get("def")
+        self._mdef = kwargs.get("mdef")
         
     def __str__(self):
         
         status += f"데미지: {self._dmg}\n"
-        status += f"마법데미지: {self._magicdmg}\n"
+        status += f"마법데미지: {self._mdmg}\n"
         status += f"방어력: {self._def}\n"
-        status += f"마법방어력: {self._magicdef}\n"
+        status += f"마법방어력: {self._mdef}\n"
         
         return status
         
@@ -51,14 +49,3 @@ class Title(Item): # 장착하면 스탯이 증가하는 칭호 메서드가 담
     def __init__(self,**kwargs):
         super().__init__(self,**kwargs)
         
-        
-aa = {
-    "name": "1",
-    "weight": 1,
-    "amount": 10,
-    "healmp": 1,
-    "stat":"_str"
-}
-#aa 포션 생성 => 힘을 증가시키는 물약
-potion = Potion(**aa)
-print(potion)
