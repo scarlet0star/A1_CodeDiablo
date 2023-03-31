@@ -1,53 +1,45 @@
 {
     "무기": {
-        "name":5,
+        "name": 5,
         "weight": 5,
+        "dmg": 5,
         "magicdmg": 5
-
     },
-
     "방어구": {
         "name": 5,
-        "weight" : 5,
+        "weight": 5,
         "def": 5,
-        "magicdef": 5    
+        "magicdef": 5
     },
-
     "물약": {
-        "name":"hp포션",
-        "weight" : 5,
+        "name": "hp포션",
+        "weight": 5,
         "amount": 50,
         "stat": 5
     },
-
     "칭호1": {
         "name": "주먹대장",
         "weight": 0,
         "_str": 10
-    },    
-
+    },
     "칭호2": {
         "name": "저격수",
         "weight": 0,
         "_dex": 10
-    },  
-
+    },
     "칭호3": {
         "name": "대마법사",
         "weight": 0,
         "_int": 10
-    },   
-
+    },
     "칭호4": {
         "name": "원소마스터",
         "weight": 0,
         "_will": 10
     },
-
     "칭호5": {
         "name": "로또1등",
         "weight": 0,
         "_luck": 10
-    }   
-
+    }
 }

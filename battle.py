@@ -83,6 +83,9 @@ class Battle:
             damage = max(random.randint(round(max_att * 0.8, max_att)
                                         ) - self.enemy_character._def, 0)
         else:
+            # 잡캐 or 몬스터
+            # print("뭐야? 잡캐야?")
+            # 모든 스탯 히든???? 누가 어떤 스킬이 더 쎌 지 모름 ㅋㅋㅋ
             main_stat_sum = self.player_character._str + self.player_character._dex + \
                 self.player_character._int + self.player_character._will + self.player_character._luck
             damage = max(random.randint(round(max_att * 0.8, max_att)
@@ -138,13 +141,13 @@ class Battle:
         # 0부터 1 사이의 난수 생성
         rand_num = random.random()
 
-        # 크리 유무
-        critical_YN = False
-        if rand_num < critical_chance:
-            # 크리티컬 발생
-            print("크리티컬!")
-            critical_YN = True
-            damage_per += 1.6
+            # 크리 유무
+            critical_YN = False
+            if rand_num < critical_chance:
+                # 크리티컬 발생
+                print("크리티컬!")
+                critical_YN = True
+                damage_per += 1.6
 
         damage = self.class_att()
 
@@ -180,6 +183,8 @@ class Battle:
 
             # 내가 먼저 턴 쓰는.... 나중에 if문으로든 해서 럭이든 무게든 써서 턴....
             # pick으로 구현하기??????
+            # 내가 먼저 턴 쓰는.... 나중에 if문으로든 해서 럭이든 무게든 써서 턴....
+            # pick으로 구현하기??????
             print(
                 f'{Colors.GREEN}일반공격{Colors.RESET}(\"1\"), {Colors.BLUE}스킬공격{Colors.RESET}(\"2\"), ', end="")
             # 미구현?
@@ -196,7 +201,7 @@ class Battle:
                 # 스킬공격
                 # 가지고 있는 skill 뜨게 하기
                 # 그 중에 스킬 선택을 해서
-                self.player_attack(skill_name=0)
+                self.player_attack(skill_name???)
             elif user_input == "3":
                 print("물약먹기, 턴을 소비?")
             elif user_input == "4":  # 미구현?
@@ -254,4 +259,4 @@ class Battle:
         # 캐릭터 백업용
         # self.player_character = self.backup
 
-        return
+        return 3
