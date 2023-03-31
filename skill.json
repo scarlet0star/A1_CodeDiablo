@@ -1,0 +1,110 @@
+{
+    "일반공격": {
+        "name": "일반공격",
+        "_lv": 1,
+        "_mp_cost": 0,
+        "_hits": 1,
+        "_damage_per": 1,
+        "_range": 1,
+        "_exp": 0,
+        "_max_exp": 0,
+        "_effect": "-",
+        "_subscription": ""
+    },
+    "스매시": {
+        "name": "스매시",
+        "_lv": 1,
+        "_mp_cost": 10,
+        "_hits": 1,
+        "_damage_per": 4,
+        "_range": 1,
+        "_exp": 0,
+        "_max_exp": 0,
+        "_effect": "-",
+        "_subscription": ""
+    },
+    "파이널히트": {
+        "name": "파이널히트",
+        "_lv": 1,
+        "_mp_cost": 400,
+        "_hits": 10,
+        "_damage_per": 1,
+        "_range": 1,
+        "_exp": 0,
+        "_max_exp": 0,
+        "_effect": "-",
+        "_subscription": ""
+    },
+    "매그넘샷": {
+        "name": "매그넘샷",
+        "_lv": 1,
+        "_mp_cost": 20,
+        "_hits": 1,
+        "_damage_per": 5,
+        "_range": 1,
+        "_exp": 0,
+        "_max_exp": 0,
+        "_effect": "-",
+        "_subscription": ""
+    },
+    "파이널샷": {
+        "name": "파이널샷",
+        "_lv": 1,
+        "_mp_cost": 60,
+        "_hits": 1,
+        "_damage_per": 8,
+        "_range": 1,
+        "_exp": 0,
+        "_max_exp": 0,
+        "_effect": "-",
+        "_subscription": ""
+    },
+    "에너지볼트": {
+        "name": "에너지볼트",
+        "_lv": 1,
+        "_mp_cost": 70,
+        "_hits": 1,
+        "_damage_per": 3,
+        "_range": 1,
+        "_exp": 0,
+        "_max_exp": 0,
+        "_effect": "-",
+        "_subscription": ""
+    },
+    "메테오": {
+        "name": "메테오",
+        "_lv": 1,
+        "_mp_cost": 1000,
+        "_hits": 4,
+        "_damage_per": 16,
+        "_range": 1,
+        "_exp": 0,
+        "_max_exp": 0,
+        "_effect": "-",
+        "_subscription": ""
+    },
+    "윈드블래스트": {
+        "name": "윈드블래스트",
+        "_lv": 1,
+        "_mp_cost": 50,
+        "_hits": 2,
+        "_damage_per": 6,
+        "_range": 1,
+        "_exp": 0,
+        "_max_exp": 0,
+        "_effect": "-",
+        "_subscription": ""
+    },
+    "히트버스터": {
+        "name": "히트버스터",
+        "_lv": 1,
+        "_mp_cost": 100,
+        "_hits": 8,
+        "_damage_per": 2,
+        "_range": 1,
+        "_exp": 0,
+        "_max_exp": 0,
+        "_effect": "-",
+        "_subscription": ""
+    }
+}
