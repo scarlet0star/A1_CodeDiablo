@@ -12,8 +12,8 @@ class Character():
 
         self._max_hp = kwargs.get("max_hp", 30)
         self._hp = kwargs.get("hp", 30)
-        self._max_mana = kwargs.get("max_mana", 30)
-        self._mana = kwargs.get("mana", 30)
+        self._max_mp = kwargs.get("max_mp", 30)
+        self._mp = kwargs.get("mp", 30)
 
         self._str = kwargs.get("str", 5)
         self._dex = kwargs.get("dex", 5)
@@ -22,8 +22,12 @@ class Character():
         self._luck = kwargs.get("luck", 5)
 
         self._exp = kwargs.get("exp", 0)
-        self._lv = kwargs.get("lv",1)
+        self._max_exp = kwargs.get("max_exp", 10)
+        self._lv = kwargs.get("lv", 1)
 
+        self.skill = kwargs.get("skills", [])
+
+        # 캐릭터 json 내부에 미리 설정된 skill 목록에 따라 스킬을 획득합니다.
 
     def __str__(self):
         status = f"캐릭터 클래스: {self._classname}\n"
@@ -38,20 +42,19 @@ class Character():
         status += f"경험치: {self._exp}\n"
 
         return status
-    
-    #장비를 장착하거나 해제 -> 결국 screen에서 결정하는 거니까(stage)
-    def update_status(self,**data):
+
+    # 장비를 장착하거나 해제 -> 결국 screen에서 결정하는 거니까(stage)
+    def update_status(self, **data):
         for key, value in data.items():
             if hasattr(self, key):
                 current = getattr(self, key)
                 setattr(self, key, current + value)
-                
-    def updated_by_arms(self,weapon_idx):
+
+    def updated_by_arms(self, weapon_idx):
         target_weapon = Equip.used_item_list[weapon_idx]
-        #weapon 내에 증가하는 스탯들이 stat이라는 딕셔너리에 저장되어있다는 가정하에
-        
+        # weapon 내에 증가하는 스탯들이 stat이라는 딕셔너리에 저장되어있다는 가정하에
+
         for key, value in target_weapon.items():
             if hasattr(self, key):
                 current = getattr(self, key)
                 setattr(self, key, current - value)
-            

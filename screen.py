@@ -5,8 +5,18 @@ import time
 import os
 from utils import pick
 import scripts
+from battle import Battle
+from main import Player
+from main import characters
+from character import Character
+
 
 def battle_stage(mainState):
+    enemy_cha = Character(**characters["1"])
+    enemy = Player(**{"propname": "마법사",
+                      "user": enemy_cha})
+    battle = Battle(mainState, enemy)
+    battle.battle()
     return mainState.stage
 
 
@@ -114,10 +124,10 @@ def new_game():
     os.system('cls')
     u_name = input('당신의 이름은 무엇인가요?')
     # 직업선택
-    _,u_class_select = pick(scripts.u_class,'직업을 선택하세요',)
+    _, u_class_select = pick(scripts.u_class, '직업을 선택하세요',)
     # 스토리텔링
     script_controller(scripts.u_story)
-    return u_name , str(u_class_select)
+    return u_name, str(u_class_select)
 
 # # class Battle:
 #     # 전투준비

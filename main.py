@@ -3,7 +3,7 @@ from equip import Equip
 from skill import Skill
 from character import Character
 from utils import load_files
-
+import sys
 # json 파일을 불러옵니다. 이를 통해 json에서 데이터를 꺼내 언제든지 객체를 인스턴스화 할 수 있습니다.
 skills = load_files("skill.json")
 characters = load_files("character.json")
@@ -22,11 +22,8 @@ class Player:
         self._equip = Equip()
         self.stage = 0
 
-        skill = data.get("skill", [])
-
-        # 캐릭터 json 내부에 미리 설정된 skill 목록에 따라 스킬을 획득합니다.
-        for skill_name in skill:
-            self._equip.add_skill(skill[skill_name])
+        for skill_name in self.character.skill:
+            self._equip.add_skill(Skill(**skills[skill_name]))
 
     @property
     def propname(self):
@@ -43,21 +40,21 @@ class Player:
         target_class = self._equip._total_character_list(index)
         self._equip.add_character(self.character)
         self.character = target_class
-    
+
     def equip_item(self, item_index):
         self._equip.equip_item(item_index)
-        
+
         target_weapon = self._equip._used_item_list[-1]
         self.character.update_status(**target_weapon.stats)
 
     def unequip_item(self, item_index):
         target_weapon = self._equip._used_item_list[item_index]
-       
+
         self.character.updated_by_arms(item_index)
-        
+
         self._equip._arms_list.append(target_weapon)
         self._equip._used_item_list.remove(target_weapon)
-        
+
 
 # main입니다. While 문을 통해 stage.py에서 선택지 정보를 받아와 계속 출력합니다.
 # 현재 player 캐릭터를 하나만 지정했기 때문에 **character['1']로 하드코딩 되어있습니다.
@@ -65,10 +62,10 @@ class Player:
 
 
 def main():
-    username,classname = new_game()
+    username, classname = new_game()
     user = Character(**characters[classname])
     mainState = Player(**{"propname": username, "user": user})
-    
+
     while True:
         next_stage = staging(mainState)
         mainState.stage = next_stage
