@@ -9,6 +9,12 @@ class Equip:
 
         self._total_skill_list = []
         self._used_skill_list = []
+<<<<<<< Updated upstream
+=======
+        self._used_item_list = {"무기": None,
+                                "방어구": None,
+                                "칭호": None, }
+>>>>>>> Stashed changes
 
         self._total_item_list = []
         self._used_item_list = []
@@ -17,8 +23,60 @@ class Equip:
         return True if len(self._used_skill_list) < self.max + 1 else False
 
     def add_skill(self, skill_instance):
+<<<<<<< Updated upstream
         if self.skill_check():
             self._total_skill_list.append(skill_instance)
+=======
+        if isinstance(skill_instance, Skill):
+            self._used_skill_list.append(skill_instance)
+
+    def add_item(self, item_instance):
+        if isinstance(item_instance, Potion):
+            self._potion_list.append(item_instance)
+        elif isinstance(item_instance, Arms):
+            self._arms_list.append(item_instance)
+
+    def add_character(self, character_instance):
+        self._total_character_list.append(character_instance)
+
+    def equip_skill(self, skill_index):
+        target = self._total_skill_list[skill_index]
+        self._used_skill_list.append(target)
+        self._total_skill_list.remove(target)
+
+    def equip_item(self, item_index):
+        target = self._arms_list[item_index]
+        self._used_item_list.append(target)
+        self._arms_list.remove(target)
+
+    def print_total_character_list(self):
+        for character in self._total_character_list:
+            print(character)
+
+    def print_total_skill_list(self):
+        for skill in self._total_skill_list:
+            print(skill)
+
+    def print_potion_list(self):
+        for potion in self._potion_list:
+            print(potion)
+
+    def print_arms_list(self):
+        for arms in self._arms_list:
+            print(arms)
+
+    def print_used_skill_list(self):
+        for skill in self._used_skill_list:
+            print(skill)
+
+    def print_used_item_list(self):
+        for item in self._used_item_list:
+            print(item)
+
+    def print_list(self, idx):
+        if idx in self.print_mappings:
+            self.print_mappings[idx]()
+>>>>>>> Stashed changes
         else:
             while True:
                 try:

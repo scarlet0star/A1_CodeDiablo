@@ -28,8 +28,36 @@ class Player:
         for skill_name in skill:
             self._equip.add_skill(skill[skill_name])
 
+<<<<<<< Updated upstream
     def use_item(self, index):
         self._equip.item_list[index].use(self.character)
+=======
+    def use_item(self):
+        potion = self._equip._potion_list.pop()
+        potion.use(self.character)
+
+    # 캐릭터 리스트를 출력해요, 그 캐릭트 리스트에서 유저가 고른 선택지
+
+    def change_class(self, index):
+        target_class = self._equip._total_character_list(index)
+        self._equip.add_character(self.character)
+        self.character = target_class
+
+    def equip_item(self, item_index):
+        self._equip.equip_item(item_index)
+
+        target_weapon = self._equip._used_item_list[-1]
+        self.character.update_status(**target_weapon.stats)
+
+    def unequip_item(self, item_index):
+        target_weapon = self._equip._used_item_list[item_index]
+
+        self.character.updated_by_arms(item_index)
+
+        self._equip._arms_list.append(target_weapon)
+        self._equip._used_item_list.remove(target_weapon)
+
+>>>>>>> Stashed changes
 
 # main입니다. While 문을 통해 stage.py에서 선택지 정보를 받아와 계속 출력합니다.
 # 현재 player 캐릭터를 하나만 지정했기 때문에 **character['1']로 하드코딩 되어있습니다.

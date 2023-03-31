@@ -1,0 +1,48 @@
+<<<<<<< Updated upstream
+=======
+{
+    "무기": {
+        "name": "엑스칼리버",
+        "weight": 5,
+        "dmg": 5,
+        "mdmg": 5
+    },
+    "방어구": {
+        "name": "플레이트아머",
+        "weight": 5,
+        "def": 5,
+        "mdef": 5
+    },
+    "물약": {
+        "name": "hp포션",
+        "weight": 5,
+        "amount": 50,
+        "stat": "_hp"
+    },
+    "칭호1": {
+        "name": "주먹대장",
+        "weight": 0,
+        "_str": 10
+    },
+    "칭호2": {
+        "name": "저격수",
+        "weight": 0,
+        "_dex": 10
+    },
+    "칭호3": {
+        "name": "대마법사",
+        "weight": 0,
+        "_int": 10
+    },
+    "칭호4": {
+        "name": "원소마스터",
+        "weight": 0,
+        "_will": 10
+    },
+    "칭호5": {
+        "name": "로또1등",
+        "weight": 0,
+        "_luck": 10
+    }
+}
+>>>>>>> Stashed changes

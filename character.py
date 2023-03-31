@@ -28,8 +28,13 @@ class Character():
     def __str__(self):
         status = f"캐릭터 클래스: {self._classname}\n"
         status += f"레벨: {self._lv}\n\n"
+<<<<<<< Updated upstream
         status += f"체력: {self._hp}{self._max_hp}/\n"
         status += f"마나: {self._mana}/{self._max_mana}\n"
+=======
+        status += f"체력: {self._max_hp}/{self._hp}/\n"
+        status += f"마나: {self._max_mp}/{self._mp}\n"
+>>>>>>> Stashed changes
         status += f"근력: {self._str}\n"
         status += f"민첩: {self._dex}\n"
         status += f"지능: {self._int}\n"
