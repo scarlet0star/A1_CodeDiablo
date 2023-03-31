@@ -90,6 +90,7 @@ class Battle:
                 self.player_character._int + self.player_character._will + self.player_character._luck
             damage = max(random.randint(round(max_att * 0.8, max_att)
                                         ) - self.enemy_character._physical_defense, 0)
+        return damage
 
     def player_attack(self, skill_name):       # Player가 enemy를 공격하는 함수
         # if 스킬0번째 있는 거냐? >> 일반 공격인지 묻는 거임.
@@ -100,76 +101,78 @@ class Battle:
         # skill 의 계수를 가져오기
         # damage_per
 
-        # if hits 수가 for문 동안 반복해서 때린다.
+        # hits 수가 for문 동안 반복해서 때린다.
+        for i in skill._hits:
+            # 크리티컬은 독립 수행
+            # player_character._luck 값에 따라 크리티컬 발생 확률이 달라짐
+            critical_chance = self.player_character._luck / 500
 
-        # 크리티컬은 독립 수행
-        # player_character._luck 값에 따라 크리티컬 발생 확률이 달라짐
-        critical_chance = self.player_character._luck / 500
+            # 0부터 1 사이의 난수 생성
+            rand_num = random.random()
 
-        # 0부터 1 사이의 난수 생성
-        rand_num = random.random()
+            # 크리 유무
+            critical_YN = False
+            if rand_num < critical_chance:
+                # 크리티컬 발생
+                print("크리티컬!")
+                critical_YN = True
+                damage_per += 1.6
 
-        # 크리 유무
-        critical_YN = False
-        if rand_num < critical_chance:
-            # 크리티컬 발생
-            print("크리티컬!")
-            critical_YN = True
-            damage_per += 1.6
+            damage = self.class_att()
 
-        damage = self.class_att()
+            self.enemy_character -= damage
 
-        self.enemy_character -= damage
-
-        # 크리티컬이면 데미지를 노란색으로
-        # 데미지가 0일 경우 MISS를 보여준다.
-        if damage != 0:
-            if critical_YN == True:
-                print(f"{Colors.GREEN}{self.name}{Colors.RESET}의 공격! {Colors.RED}{self.enemy_character._name}{Colors.RESET}에게 {Colors.YELLOW}{damage}{Colors.RESET}을(를) 입혔습니다.")
+            # 크리티컬이면 데미지를 노란색으로
+            # 데미지가 0일 경우 MISS를 보여준다.
+            if damage != 0:
+                if critical_YN == True:
+                    print(f"{Colors.GREEN}{self.name}{Colors.RESET}의 공격! {Colors.RED}{self.enemy_character._name}{Colors.RESET}에게 {Colors.YELLOW}{damage}{Colors.RESET}을(를) 입혔습니다.")
+                else:
+                    print(
+                        f"{Colors.GREEN}{self.name}{Colors.RESET}의 공격! {Colors.RED}{self.enemy_character._name}{Colors.RESET}에게 {damage}을(를) 입혔습니다.")
             else:
                 print(
-                    f"{Colors.GREEN}{self.name}{Colors.RESET}의 공격! {Colors.RED}{self.enemy_character._name}{Colors.RESET}에게 {damage}을(를) 입혔습니다.")
-        else:
-            print(f"{Colors.GREEN}{self.name}{Colors.RESET}의 공격! {Colors.RED}{self.enemy_character._name}{Colors.RESET}에게 MISS")
+                    f"{Colors.GREEN}{self.name}{Colors.RESET}의 공격! {Colors.RED}{self.enemy_character._name}{Colors.RESET}에게 MISS")
 
-    def enemy__attack(self, skill_name):    # name이든 뭐든 어떻든 써서
-        # if 스킬0번째 있는 거냐? >> 일반 공격인지 묻는 거임.
-        # print("일반공격입니다.")
-        # damage_per = 1
-        # else:
-        # print(skill_name)
-        # skill 의 계수를 가져오기
-        # damage_per
+        def enemy_attack(self, skill_name):    # name이든 뭐든 어떻든 써서
+            # if 스킬0번째 있는 거냐? >> 일반 공격인지 묻는 거임.
+            # print("일반공격입니다.")
+            # damage_per = 1
+            # else:
+            # print(skill_name)
+            # skill 의 계수를 가져오기
+            # damage_per
 
-        # player_character._luck 값에 따라 크리티컬 발생 확률이 달라짐
-        critical_chance = self.player_character._luck / 500
+            # player_character._luck 값에 따라 크리티컬 발생 확률이 달라짐
+            critical_chance = self.player_character._luck / 500
 
-        # 0부터 1 사이의 난수 생성
-        rand_num = random.random()
+            # 0부터 1 사이의 난수 생성
+            rand_num = random.random()
 
-        # 크리 유무
-        critical_YN = False
-        if rand_num < critical_chance:
-            # 크리티컬 발생
-            print("크리티컬!")
-            critical_YN = True
-            damage_per += 1.6
+            # 크리 유무
+            critical_YN = False
+            if rand_num < critical_chance:
+                # 크리티컬 발생
+                print("크리티컬!")
+                critical_YN = True
+                damage_per += 1.6
 
-        damage = self.class_att()
+            damage = self.class_att()
 
-        self.enemy_character -= damage
+            self.enemy_character -= damage
 
-        # 크리티컬이면 데미지를 노란색으로
-        # 데미지가 0일 경우 MISS를 보여준다.
-        # 나중엔 스킬이름을 넣으면 된다....
-        if damage != 0:
-            if critical_YN == True:
-                print(f"{Colors.RED}{self.name}{Colors.RESET}의 공격! {Colors.GREEN}{self.enemy_character._name}{Colors.RESET}에게 {Colors.YELLOW}{damage}{Colors.RESET}을(를) 입혔습니다.")
+            # 크리티컬이면 데미지를 노란색으로
+            # 데미지가 0일 경우 MISS를 보여준다.
+            # 나중엔 스킬이름을 넣으면 된다....
+            if damage != 0:
+                if critical_YN == True:
+                    print(f"{Colors.RED}{self.name}{Colors.RESET}의 공격! {Colors.GREEN}{self.enemy_character._name}{Colors.RESET}에게 {Colors.YELLOW}{damage}{Colors.RESET}을(를) 입혔습니다.")
+                else:
+                    print(
+                        f"{Colors.RED}{self.name}{Colors.RESET}의 공격! {Colors.GREEN}{self.enemy_character._name}{Colors.RESET}에게 {damage}을(를) 입혔습니다.")
             else:
                 print(
-                    f"{Colors.RED}{self.name}{Colors.RESET}의 공격! {Colors.GREEN}{self.enemy_character._name}{Colors.RESET}에게 {damage}을(를) 입혔습니다.")
-        else:
-            print(f"{Colors.RED}{self.name}{Colors.RESET}의 공격! {Colors.GREEN}{self.enemy_character._name}{Colors.RESET}에게  MISS")
+                    f"{Colors.RED}{self.name}{Colors.RESET}의 공격! {Colors.GREEN}{self.enemy_character._name}{Colors.RESET}에게  MISS")
 
 
 # 위력을 비교하는 함수입니다. randint를 통해 무작위 변수를 생성해 위력을 결정하고 비교합니다.
@@ -180,7 +183,6 @@ class Battle:
 # 배틀 상황에 대한 전개입니다.
 # 클래스에서 정의된 모든 함수들이 여기서 사용됩니다.
 # 마지막에 미리 백업해둔 캐릭터 데이터를 통해 캐릭터를 복구하고 main stage(3)으로 갑니다.
-
 
     def battle(self, player, enemy):    # 배틀이 시작되는 첫 함수
 
@@ -207,7 +209,7 @@ class Battle:
                 input(f"\n>>입력: "))
 
             if user_input == "1":
-                self.player_attack(skill_name=0???)
+                self.enemy_attack(skill_name=0???)
                 # 일반공격
             elif user_input == "2":
                 # 스킬공격
