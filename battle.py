@@ -51,16 +51,58 @@ class Battle:
 
         # 캐릭터 스크린이 있지 않나?
 
-    # 전투 바로 직전 무조건 실행할 함수
-    def start(self):
-        pass
+    def class_att(self, damage_per):
 
-    def round_start(self):
-        pass
-    
-    def generate_damage(self):
-        
-        #크리티컬은 독립 수행
+        weapon = self.player_character.Equip.used_item_list["무기"]
+
+        if (self.player_character._classname == "전사"):
+            main_stat_sum = self.player_character._str * 4
+
+            max_att = (main_stat_sum + weapon._dmg) * damage_per
+            damage = max(random.randint(round(max_att * 0.8, max_att)
+                                        ) - self.enemy_character._def, 0)
+
+        elif (self.player_character._classname == "궁수"):
+            main_stat_sum = self.player_character._dex * 4
+
+            max_att = (main_stat_sum + weapon._dmg) * damage_per
+            damage = max(random.randint(round(max_att * 0.8, max_att)
+                                        ) - self.enemy_character._def, 0)
+
+        elif (self.player_character._classname == "마법사"):
+            main_stat_sum = self.player_character._int * 4
+
+            max_att = (main_stat_sum + weapon._magicdmg) * damage_per
+            damage = max(random.randint(round(max_att * 0.8, max_att)
+                                        ) - self.enemy_character._def, 0)
+        elif (self.player_character._classname == "연금술사"):
+            main_stat_sum = self.player_character._max_hp + \
+                self.player_character._max_mp  # ???????????????
+
+            max_att = (main_stat_sum + weapon._dmg) * damage_per
+            damage = max(random.randint(round(max_att * 0.8, max_att)
+                                        ) - self.enemy_character._def, 0)
+        else:
+            # 잡캐 or 몬스터
+            # print("뭐야? 잡캐야?")
+            # 모든 스탯 히든???? 누가 어떤 스킬이 더 쎌 지 모름 ㅋㅋㅋ
+            main_stat_sum = self.player_character._str + self.player_character._dex + \
+                self.player_character._int + self.player_character._will + self.player_character._luck
+            damage = max(random.randint(round(max_att * 0.8, max_att)
+                                        ) - self.enemy_character._physical_defense, 0)
+
+    def player_attack(self, skill_name):       # Player가 enemy를 공격하는 함수
+        # if 스킬0번째 있는 거냐? >> 일반 공격인지 묻는 거임.
+        # print("일반공격입니다.")
+        # damage_per = 1
+        # else:
+        # print('스킬 공격이구나?')
+        # skill 의 계수를 가져오기
+        # damage_per
+
+        # if hits 수가 for문 동안 반복해서 때린다.
+
+        # 크리티컬은 독립 수행
         # player_character._luck 값에 따라 크리티컬 발생 확률이 달라짐
         critical_chance = self.player_character._luck / 500
 
@@ -74,47 +116,9 @@ class Battle:
             print("크리티컬!")
             critical_YN = True
             damage_per += 1.6
-        
-        weapon = self.player_character.Equip.used_item_list["무기"]
-        
-        if (self.player_character._classname == "전사"):
-            main_stat_sum = self.player_character._str * 4
 
-            max_att = (main_stat_sum + 무기_물리_공격력) * damage_per
-            damage = max(random.randint(round(max_att * 0.8, max_att)
-                                        ) - self.enemy_character._physical_defense, 0)
+        damage = self.class_att()
 
-        elif (self.player_character._classname == "궁수"):
-            main_stat_sum = self.player_character._dex * 4
-
-            max_att = (main_stat_sum + 무기_물리_공격력) * damage_per
-            damage = max(random.randint(round(max_att * 0.8, max_att)
-                                        ) - self.enemy_character._physical_defense, 0)
-
-        elif (self.player_character._classname == "마법사"):
-            main_stat_sum = self.player_character._int * 4
-
-            max_att = (main_stat_sum + 무기_마법_공격력) * damage_per
-            damage = max(random.randint(round(max_att * 0.8, max_att)
-                                        ) - self.enemy_character._magic_defense, 0)
-        elif (self.player_character._classname == "연금술사"):
-            main_stat_sum = self.player_character._max_hp + \
-                self.player_character._max_mp  
-                
-            max_att = (main_stat_sum + 무기_물리_공격력) * damage_per
-            damage = max(random.randint(round(max_att * 0.8, max_att)
-                                        ) - self.enemy_character._physical_defense, 0)
-        else:
-            main_stat_sum = self.player_character._str + self.player_character._dex + \
-                self.player_character._int + self.player_character._will + self.player_character._luck
-            damage = max(random.randint(round(max_att * 0.8, max_att)
-                                        ) - self.enemy_character._physical_defense, 0)
-    
-        return damage
-    
-    def player_attack(self, skill_name): 
-        damage = self.generate_damage()
-        
         self.enemy_character -= damage
 
         # 크리티컬이면 데미지를 노란색으로
@@ -128,7 +132,15 @@ class Battle:
         else:
             print(f"{Colors.GREEN}{self.name}{Colors.RESET}의 공격! {Colors.RED}{self.enemy_character._name}{Colors.RESET}에게 MISS")
 
-    def enemy_attack(self, skill_name): 
+    def enemy__attack(self, skill_name):    # name이든 뭐든 어떻든 써서
+        # if 스킬0번째 있는 거냐? >> 일반 공격인지 묻는 거임.
+        # print("일반공격입니다.")
+        # damage_per = 1
+        # else:
+        # print(skill_name)
+        # skill 의 계수를 가져오기
+        # damage_per
+
         # player_character._luck 값에 따라 크리티컬 발생 확률이 달라짐
         critical_chance = self.player_character._luck / 500
 
@@ -143,8 +155,8 @@ class Battle:
             critical_YN = True
             damage_per += 1.6
 
-        damage = self.generate_damage()
-        
+        damage = self.class_att()
+
         self.enemy_character -= damage
 
         # 크리티컬이면 데미지를 노란색으로
@@ -159,6 +171,17 @@ class Battle:
         else:
             print(f"{Colors.RED}{self.name}{Colors.RESET}의 공격! {Colors.GREEN}{self.enemy_character._name}{Colors.RESET}에게  MISS")
 
+
+# 위력을 비교하는 함수입니다. randint를 통해 무작위 변수를 생성해 위력을 결정하고 비교합니다.
+# 위력이 쎈 쪽이 상대방에게 데미지를 입힙니다.
+
+    # 공격하고 받는 그런?
+
+# 배틀 상황에 대한 전개입니다.
+# 클래스에서 정의된 모든 함수들이 여기서 사용됩니다.
+# 마지막에 미리 백업해둔 캐릭터 데이터를 통해 캐릭터를 복구하고 main stage(3)으로 갑니다.
+
+
     def battle(self, player, enemy):    # 배틀이 시작되는 첫 함수
 
         # self.start()
@@ -172,6 +195,8 @@ class Battle:
 
             print(f'{self.battle_round}라운드가 시작되었습니다\n')  # 1 라운드가 1턴 인가?
 
+            # 내가 먼저 턴 쓰는.... 나중에 if문으로든 해서 럭이든 무게든 써서 턴....
+            # pick으로 구현하기??????
             print(
                 f'{Colors.GREEN}일반공격{Colors.RESET}(\"1\"), {Colors.BLUE}스킬공격{Colors.RESET}(\"2\"), ', end="")
             # 미구현?
@@ -182,13 +207,13 @@ class Battle:
                 input(f"\n>>입력: "))
 
             if user_input == "1":
-                self.player_attack(skill_name=0)
+                self.player_attack(skill_name=0???)
                 # 일반공격
             elif user_input == "2":
                 # 스킬공격
                 # 가지고 있는 skill 뜨게 하기
                 # 그 중에 스킬 선택을 해서
-                self.player_attack(skill_name=0)
+                self.player_attack(skill_name???)
             elif user_input == "3":
                 print("물약먹기, 턴을 소비?")
             elif user_input == "4":  # 미구현?
@@ -246,4 +271,4 @@ class Battle:
         # 캐릭터 백업용
         # self.player_character = self.backup
 
-        return
+        return 3
