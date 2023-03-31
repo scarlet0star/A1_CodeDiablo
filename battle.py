@@ -1,5 +1,4 @@
 import random
-from itertools import zip_longest
 from textcolor import *
 
 
@@ -27,15 +26,15 @@ class Battle:
 
         # HP bar
         if 0.5 <= per_hp <= 1:
-            status += f"{Colors.BLUE}{you._name}{Colors.RESET}의 상태: {Colors.RED} HP {Colors.RESET}{Colors.GREEN}{you._hp}{Colors.RESET}/{Colors.GREEN}{you.max_hp}{Colors.RESET}, {Colors.BLUE}MP {you._mp}{Colors.RESET}/{Colors.BLUE}{you.max_mp}{Colors.RESET}"
+            status += f"{Colors.BLUE}{you._classname}{Colors.RESET}의 상태: {Colors.RED} HP {Colors.RESET}{Colors.GREEN}{you._hp}{Colors.RESET}/{Colors.GREEN}{you._max_hp}{Colors.RESET}, {Colors.BLUE}MP {you._mp}{Colors.RESET}/{Colors.BLUE}{you._max_mp}{Colors.RESET}"
             status += f"{Colors.GREEN}░{Colors.RESET}" * \
                 left_hp + "░" * (50 - left_hp)
         elif 0.2 <= per_hp < 0.5:
-            status += f"{Colors.BLUE}{you._name}{Colors.RESET}의 상태: {Colors.RED} HP {Colors.RESET}{Colors.ORANGE}{you._hp}{Colors.RESET}/{Colors.GREEN}{you.max_hp}{Colors.RESET}, {Colors.BLUE}MP {you._mp}{Colors.RESET}/{Colors.BLUE}{you.max_mp}{Colors.RESET}"
+            status += f"{Colors.BLUE}{you._classname}{Colors.RESET}의 상태: {Colors.RED} HP {Colors.RESET}{Colors.ORANGE}{you._hp}{Colors.RESET}/{Colors.GREEN}{you._max_hp}{Colors.RESET}, {Colors.BLUE}MP {you._mp}{Colors.RESET}/{Colors.BLUE}{you._max_mp}{Colors.RESET}"
             status += f"{Colors.ORANGE}░{Colors.RESET}" * \
                 left_hp + "░" * (50 - left_hp)
         else:
-            status += f"{Colors.BLUE}{you._name}{Colors.RESET}의 상태: {Colors.RED} HP {Colors.RESET}{Colors.RED}{you._hp}{Colors.RESET}/{Colors.GREEN}{you.max_hp}{Colors.RESET}, {Colors.BLUE}MP {you._mp}{Colors.RESET}/{Colors.BLUE}{you.max_mp}{Colors.RESET}"
+            status += f"{Colors.BLUE}{you._classname}{Colors.RESET}의 상태: {Colors.RED} HP {Colors.RESET}{Colors.RED}{you._hp}{Colors.RESET}/{Colors.GREEN}{you._max_hp}{Colors.RESET}, {Colors.BLUE}MP {you._mp}{Colors.RESET}/{Colors.BLUE}{you._max_mp}{Colors.RESET}"
             status += f"{Colors.RED}░{Colors.RESET}" * \
                 left_hp + "░" * (50 - left_hp)
 
@@ -140,14 +139,13 @@ class Battle:
 
         # 0부터 1 사이의 난수 생성
         rand_num = random.random()
-
             # 크리 유무
-            critical_YN = False
-            if rand_num < critical_chance:
-                # 크리티컬 발생
-                print("크리티컬!")
-                critical_YN = True
-                damage_per += 1.6
+        critical_YN = False
+        if rand_num < critical_chance:
+            # 크리티컬 발생
+            print("크리티컬!")
+            critical_YN = True
+            damage_per += 1.6
 
         damage = self.class_att()
 
@@ -168,6 +166,10 @@ class Battle:
 
     def battle(self):    # 배틀이 시작되는 첫 함수
 
+        #전에는 -> 유저한테 어떤 입력을 할지? 어떤 선택지들이 있는지 출력
+        #중에는 -> 유저가 입력한 선택지대로 로직 진행 (스킬 n번을 고르면 n번 스킬로 데미지 계산)
+        #후에는 -> 서로 데미지를 주고받음
+         
         player_character = self.player_character.character
         enemy_character = self.enemy_character.character
         # self.start()
@@ -181,10 +183,7 @@ class Battle:
 
             print(f'{self.battle_round}라운드가 시작되었습니다\n')  # 1 라운드가 1턴 인가?
 
-            # 내가 먼저 턴 쓰는.... 나중에 if문으로든 해서 럭이든 무게든 써서 턴....
-            # pick으로 구현하기??????
-            # 내가 먼저 턴 쓰는.... 나중에 if문으로든 해서 럭이든 무게든 써서 턴....
-            # pick으로 구현하기??????
+    
             print(
                 f'{Colors.GREEN}일반공격{Colors.RESET}(\"1\"), {Colors.BLUE}스킬공격{Colors.RESET}(\"2\"), ', end="")
             # 미구현?
@@ -201,7 +200,7 @@ class Battle:
                 # 스킬공격
                 # 가지고 있는 skill 뜨게 하기
                 # 그 중에 스킬 선택을 해서
-                self.player_attack(skill_name???)
+                self.player_attack(skill_name=0)
             elif user_input == "3":
                 print("물약먹기, 턴을 소비?")
             elif user_input == "4":  # 미구현?
@@ -259,4 +258,4 @@ class Battle:
         # 캐릭터 백업용
         # self.player_character = self.backup
 
-        return 3
+        return
