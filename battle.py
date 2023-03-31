@@ -124,15 +124,16 @@ class Battle:
 
             # 크리티컬이면 데미지를 노란색으로
             # 데미지가 0일 경우 MISS를 보여준다.
+            att_print = f"{Colors.GREEN}{self.name}{Colors.RESET}의 공격! {Colors.RED}{self.enemy_character._name}{Colors.RESET}에게 "
             if damage != 0:
                 if critical_YN == True:
-                    print(f"{Colors.GREEN}{self.name}{Colors.RESET}의 공격! {Colors.RED}{self.enemy_character._name}{Colors.RESET}에게 {Colors.YELLOW}{damage}{Colors.RESET}을(를) 입혔습니다.")
+                    att_print += f"{Colors.YELLOW}{damage}{Colors.RESET}을(를) 입혔습니다."
                 else:
-                    print(
-                        f"{Colors.GREEN}{self.name}{Colors.RESET}의 공격! {Colors.RED}{self.enemy_character._name}{Colors.RESET}에게 {damage}을(를) 입혔습니다.")
+                    att_print += f"{damage}을(를) 입혔습니다."
             else:
-                print(
-                    f"{Colors.GREEN}{self.name}{Colors.RESET}의 공격! {Colors.RED}{self.enemy_character._name}{Colors.RESET}에게 MISS")
+                att_print += f"MISS"
+
+            print(att_print)
 
         def enemy_attack(self, skill_name):    # name이든 뭐든 어떻든 써서
             # if 스킬0번째 있는 거냐? >> 일반 공격인지 묻는 거임.
@@ -163,16 +164,16 @@ class Battle:
 
             # 크리티컬이면 데미지를 노란색으로
             # 데미지가 0일 경우 MISS를 보여준다.
-            # 나중엔 스킬이름을 넣으면 된다....
+            att_print = f"{Colors.GREEN}{self.name}{Colors.RESET}의 공격! {Colors.RED}{self.enemy_character._name}{Colors.RESET}에게 "
             if damage != 0:
                 if critical_YN == True:
-                    print(f"{Colors.RED}{self.name}{Colors.RESET}의 공격! {Colors.GREEN}{self.enemy_character._name}{Colors.RESET}에게 {Colors.YELLOW}{damage}{Colors.RESET}을(를) 입혔습니다.")
+                    att_print += f"{Colors.YELLOW}{damage}{Colors.RESET}을(를) 입혔습니다."
                 else:
-                    print(
-                        f"{Colors.RED}{self.name}{Colors.RESET}의 공격! {Colors.GREEN}{self.enemy_character._name}{Colors.RESET}에게 {damage}을(를) 입혔습니다.")
+                    att_print += f"{damage}을(를) 입혔습니다."
             else:
-                print(
-                    f"{Colors.RED}{self.name}{Colors.RESET}의 공격! {Colors.GREEN}{self.enemy_character._name}{Colors.RESET}에게  MISS")
+                att_print += f"MISS"
+
+            print(att_print)
 
 
 # 위력을 비교하는 함수입니다. randint를 통해 무작위 변수를 생성해 위력을 결정하고 비교합니다.
